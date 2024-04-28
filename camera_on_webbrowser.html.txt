@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Camera Access App YO</title>
+</head>
+<body>
+    <h1>Live Camera Feed</h1>
+    <video id="video" width="640" height="480" autoplay></video>
+    <script>
+        const video = document.getElementById('video');
+
+        // Options for the camera request
+        const constraints = {
+            video: {
+                facingMode: "environment" // Use the rear-facing camera
+            }
+        };
+
+        // Check if getUserMedia is supported
+        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+            // Request the camera with constraints
+            navigator.mediaDevices.getUserMedia(constraints)
+                .then(function(stream) {
+                    // Link the video source to the video element
+                    video.srcObject = stream;
+                    video.play();
+                })
+                .catch(function(error) {
+                    console.error("Error accessing the camera: ", error);
+                });
+        } else {
+            alert('getUserMedia not supported by this browser, try Google Chrome.');
+        }
+    </script>
+</body>
+</html>
