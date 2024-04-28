@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Camera Access App</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* Positioning the video and arrow container */
+        #camera-container {
+            position: relative;
+            width: 100%; /* Full width */
+            max-width: 640px; /* You can adjust this as necessary */
+            margin: auto;
+        }
+
+        /* Styling the video element */
+        #video {
+            width: 100%;
+            height: auto; /* Maintain aspect ratio */
+        }
+
+        /* Styling the arrow with a higher z-index */
+        #arrow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            z-index: 10; /* Ensure it's above the video */
+            transform: translate(-50%, -50%);
+            font-size: 48px;
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div id="camera-container">
+        <video id="video" autoplay></video>
+        <div id="arrow">➡️</div> <!-- Simple right arrow -->
+    </div>
+    <script>
+        const video = document.getElementById('video');
+
+        // Options for the camera request
+        const constraints = {
+            video: {
+                facingMode: "environment" // Use the rear-facing camera
+            }
+        };
+
+        // Check if getUserMedia is supported
+        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+            // Request the camera with constraints
+            navigator.mediaDevices.getUserMedia(constraints)
+                .then(function(stream) {
+                    // Link the video source to the video element
+                    video.srcObject = stream;
+                    video.play();
+                })
+                .catch(function(error) {
+                    console.error("Error accessing the camera: ", error);
+                });
+        } else {
+            alert('getUserMedia not supported by this browser, try Google Chrome.');
+        }
+    </script>
+</body>
+</html>
